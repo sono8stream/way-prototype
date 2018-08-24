@@ -5,13 +5,15 @@ import App from './containers/App';
 import Login from './containers/Login';
 import Signup from './containers/Signup';
 import User from './containers/User';
+import Profile from './containers/Profile';
 
 const Routes = (props)=>(
     <BrowserRouter {...props}>
       <div>
         <Route exact path="/" component={ App } />
-        <Route exact path="/signup" component={ Signup } />
+        <Route path="/signup" component={ Signup } />
         <Route exact path="/users" component={ User } />
+        <Route path="/users/:id" component={Profile}/>
         <Route path="/login" component={ Login } />
       </div>
     </BrowserRouter>

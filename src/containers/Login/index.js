@@ -8,7 +8,9 @@ class Login extends Component {
   constructor(props){
     super(props);
     this.handleLogin=this.handleLogin.bind(this);
+  }
 
+  componentWillMount(){
     firebaseAuth().getRedirectResult().then((result)=>{
       if(result.credential!=null){
         var idRef;
@@ -21,10 +23,6 @@ class Login extends Component {
                 token: result.credential.accessToken,
                 registered: false,
               }).then((result)=>{
-                /*this.props.history.push({
-                  pathname: '/signup',
-                  state: {email: refId.key},
-                });*/
                 this.redirect('/signup',idRef);
               });
             }
@@ -36,15 +34,12 @@ class Login extends Component {
               });
 
               if(registered){
+                this.redirect('/users',idRef);
 
               }
               else{
                 this.redirect('/signup',idRef);
               }
-              /*this.props.history.push({
-                pathname: '/users',
-                state: {token: this.state.token, user: this.state.user},
-              });*/
             }
           });
       }
@@ -59,27 +54,9 @@ class Login extends Component {
 
   }
 
-  async handleLogin(e){//ポップアップログイン後にsignupに遷移
+  handleLogin(e){//ポップアップログイン後にsignupに遷移
     e.preventDefault();
     const provider=new firebaseAuth.GithubAuthProvider();
-    /*await firebaseAuth().signInWithPopup(provider)
-      .then((result)=>{
-        this.setState({
-          token: result.credential.accessToken,
-          user: result.user});
-        ref.once(result.credential.accessToken).then((snapshot)=>{
-          this.setState({token: snapshot.val.token});
-        });
-        ref.push({
-          token: result.credential.accessToken,
-          registered: false,
-        }).then((result)=>{
-        });
-        /*this.props.history.push({
-          pathname: '/signup',
-          state: {token: this.state.token, user: this.state.user},
-        });
-      });*/
     firebaseAuth().signInWithRedirect(provider);
   }
 
